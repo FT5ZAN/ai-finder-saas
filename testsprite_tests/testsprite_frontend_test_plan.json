@@ -1,0 +1,453 @@
+[
+  {
+    "id": "TC001",
+    "title": "User Registration and Login via Email/Password",
+    "description": "Verify that users can register and login using email and password through Clerk authentication, and a user record is created in MongoDB with proper session management.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the unified authentication page."
+      },
+      {
+        "type": "action",
+        "description": "Enter valid email and password for registration."
+      },
+      {
+        "type": "action",
+        "description": "Submit the registration form."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm account creation success message."
+      },
+      {
+        "type": "action",
+        "description": "Logout from the application."
+      },
+      {
+        "type": "action",
+        "description": "Navigate to login page and enter the registered email and password."
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify user is successfully logged in and session is active."
+      },
+      {
+        "type": "assertion",
+        "description": "Check MongoDB user collection contains the new user record."
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "User Login via Google OAuth",
+    "description": "Ensure users can successfully login using Google OAuth through Clerk and that user session and MongoDB user records are handled correctly.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the unified authentication page."
+      },
+      {
+        "type": "action",
+        "description": "Click on the 'Login with Google' button."
+      },
+      {
+        "type": "action",
+        "description": "Complete Google OAuth authentication flow."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the user is logged in successfully."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that a corresponding user record exists in MongoDB."
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "AI Tools Search with Relevant Results",
+    "description": "Test that the AI Tools Discovery platform returns accurate and relevant AI tools based on keyword extraction, scoring, and ranking algorithms.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as a valid user."
+      },
+      {
+        "type": "action",
+        "description": "Enter a search query relevant to existing AI tools."
+      },
+      {
+        "type": "action",
+        "description": "Submit the search request."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the top 5 results are relevant and ranked according to relevance and popularity."
+      },
+      {
+        "type": "assertion",
+        "description": "Ensure results load within acceptable response time (under 2 seconds)."
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "AI Chatbot Recommendations with Fallback",
+    "description": "Validate that the AI chatbot returns the top 5 relevant AI tools for typical queries and displays a fallback message when no relevant tool matches.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the AI chatbot interface."
+      },
+      {
+        "type": "action",
+        "description": "Input a query that matches existing AI tools."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that the chatbot responds with the top 5 relevant AI tools structured clearly."
+      },
+      {
+        "type": "action",
+        "description": "Input a query that does not match any tool."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that the chatbot returns an appropriate fallback message."
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "CRUD Operations for AI Tools",
+    "description": "Verify full CRUD capabilities on AI tools including creation, read, update (like, save, categorize), and deletion with immediate UI updates.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as an authorized user or admin."
+      },
+      {
+        "type": "action",
+        "description": "Create a new AI tool via the tool management API or UI."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the new tool appears in the tool list immediately."
+      },
+      {
+        "type": "action",
+        "description": "Like, save, and assign a category to the created tool."
+      },
+      {
+        "type": "assertion",
+        "description": "Ensure UI updates reflect likes, saves, and category changes without delay."
+      },
+      {
+        "type": "action",
+        "description": "Edit tool details and save changes."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify updates persist and display correctly."
+      },
+      {
+        "type": "action",
+        "description": "Delete the AI tool."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm tool is removed from listings and database."
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "Category-Based Tool Filtering and Virtualized List Performance",
+    "description": "Test that users can filter AI tools by category with dynamic routing and that virtualized tool lists handle large datasets efficiently without UI lag.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to a category page via dynamic routing."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify only tools belonging to the selected category are displayed."
+      },
+      {
+        "type": "action",
+        "description": "Scroll through the tool list containing a large number of items."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm the virtualized list renders smoothly without performance degradation."
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Hydration Mismatch-Free Rendering on Category and Saved Tools Pages",
+    "description": "Ensure no hydration mismatch warnings or errors occur during server-side and client-side rendering on category and saved tools pages with proper serialization and component separation.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to category page."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify no hydration mismatch warnings appear in console."
+      },
+      {
+        "type": "action",
+        "description": "Navigate to saved tools page."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm no hydration mismatch warnings or UI inconsistencies are observed."
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "Razorpay Payment Flow for Premium Features",
+    "description": "Validate that users can successfully initiate, complete, and verify payments for premium features using Razorpay integration including order creation and webhook confirmation.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as a registered user."
+      },
+      {
+        "type": "action",
+        "description": "Navigate to the premium features payment page."
+      },
+      {
+        "type": "action",
+        "description": "Initiate a payment order via Razorpay."
+      },
+      {
+        "type": "action",
+        "description": "Complete payment using Razorpay UI."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify payment verification is processed and status updated."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that webhook confirmation is received and stored in the user’s payment history."
+      }
+    ]
+  },
+  {
+    "id": "TC009",
+    "title": "Image Upload and Optimization via ImageKit",
+    "description": "Test AI tool logo uploads through ImageKit integration ensuring secure, optimized uploads and that Next.js Image component correctly displays uploaded images without legacy <img> usage.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Upload a tool logo image using the upload interface."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the image is uploaded successfully and optimized."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that the logo is displayed using Next.js Image component."
+      }
+    ]
+  },
+  {
+    "id": "TC010",
+    "title": "Global State Management with Redux Toolkit",
+    "description": "Confirm that Redux Toolkit maintains consistent global state across various components including user session, tool likes/saves, and UI state changes.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login and perform actions that update state, such as liking and saving multiple tools."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that component states reflect changes immediately and consistently."
+      },
+      {
+        "type": "action",
+        "description": "Trigger state-changing operations from different parts of the app (e.g., category page and saved-tools page)."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that state persists correctly across routes and components."
+      }
+    ]
+  },
+  {
+    "id": "TC011",
+    "title": "API Rate Limiting and Input Sanitization Enforcement",
+    "description": "Ensure the API routes enforce rate limiting to prevent abuse and sanitize inputs to secure against injection or malformed data.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Send a high volume of API requests exceeding the rate limit."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that requests beyond limit are rejected with appropriate HTTP status and message."
+      },
+      {
+        "type": "action",
+        "description": "Send API requests with malicious or malformed inputs."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm inputs are sanitized properly and errors are handled gracefully without security vulnerabilities."
+      }
+    ]
+  },
+  {
+    "id": "TC012",
+    "title": "Admin Panel Access Control and Management",
+    "description": "Verify that admin panel access is restricted to only authorized admin users and that admin features allow full management of tools and users securely.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Attempt to access admin panel URL as a non-admin user."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify access is denied and appropriate redirect or error shown."
+      },
+      {
+        "type": "action",
+        "description": "Login as an admin user."
+      },
+      {
+        "type": "action",
+        "description": "Access the admin panel and perform user management operations (edit, delete)."
+      },
+      {
+        "type": "action",
+        "description": "Perform AI tool management operations (create, update, delete)."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify all admin operations are successful and changes reflect correctly."
+      }
+    ]
+  },
+  {
+    "id": "TC013",
+    "title": "Error Handling, Logging, and User Notifications",
+    "description": "Test that unexpected failures are properly logged by Winston and users receive friendly UI alerts without breaking application flow.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Force an API failure or simulate backend error."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that the error is logged in Winston logger with relevant details."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that the user receives a UI alert explaining the error."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm the app remains stable and usable after error occurrence."
+      }
+    ]
+  },
+  {
+    "id": "TC014",
+    "title": "End-to-End User Flow: Search, Save, and Payment",
+    "description": "Conduct an end-to-end test covering user login, AI tool search, save action, and premium feature purchase via Razorpay to verify complete integration workflow.",
+    "category": "integration",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login with a valid user account."
+      },
+      {
+        "type": "action",
+        "description": "Search for an AI tool using the search bar."
+      },
+      {
+        "type": "action",
+        "description": "Save a tool to a folder."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm the tool appears in the saved tools list."
+      },
+      {
+        "type": "action",
+        "description": "Navigate to premium subscription and initiate a Razorpay payment."
+      },
+      {
+        "type": "action",
+        "description": "Complete the payment process."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify payment is recorded and premium access is granted."
+      }
+    ]
+  },
+  {
+    "id": "TC015",
+    "title": "Automated Test Suite Coverage Verification",
+    "description": "Verify that unit, integration, and end-to-end automated tests cover above 90% of the codebase and complete without failures.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Run Jest unit and integration tests."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that test coverage is above 90% and all tests pass."
+      },
+      {
+        "type": "action",
+        "description": "Run Playwright end-to-end test suites."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm all end-to-end tests pass successfully."
+      }
+    ]
+  }
+]

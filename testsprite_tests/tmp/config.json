@@ -1,0 +1,18 @@
+{
+  "status": "commited",
+  "type": "frontend",
+  "scope": "codebase",
+  "localEndpoint": "http://localhost:3000",
+  "loginUser": "building SaaS",
+  "loginPassword": "962983",
+  "executionArgs": {
+    "projectName": "model-12",
+    "projectPath": "D:\\Final\\model-12",
+    "testIds": [],
+    "additionalInstruction": "Focus on fixing the critical test issues we identified earlier, particularly the FlipCard component tests, OptimizedButtons tests, and API tests. The main issues are: 1) Multiple elements with same test IDs, 2) Missing text content in components, 3) MongoDB mock issues, 4) API response expectations. Please provide specific fixes for these test failures.",
+    "envs": {
+      "API_KEY": "sk-user-B7oiRrPrtBhWsAvOo0cdB_x9toXPzhF7bGridgJFRfzTNen_Ko8VORupgYf3ooupi07eY5svNEm77cY4CwSX9Y_RnhZ0wawGCGboJFaPRVzHKzGvP436N8zHaxIM9dEfc0M"
+    }
+  },
+  "proxy": "http://409d532a-9455-492a-aef7-6fa7afeca6a8:4sIiAOHP8LbzjC3QXD9LusdnYhB48ETs@tun.testsprite.com:8080"
+}

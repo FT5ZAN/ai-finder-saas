@@ -1,0 +1,184 @@
+.grandp{
+    /* background-color: olive; */
+    display: flex;
+}
+.parant{
+    width: 100%;
+    min-height: auto;
+    padding: 1rem 0;
+    /* BACKGROUND: CHOCOLATE; */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+.child{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    place-items: center;
+}
+
+/* Card size for desktop */
+.child > * {
+    width: 100%;
+    max-width: 280px;
+    height: 160px;
+    font-size: 1.5rem;
+}
+
+/* Large Desktop (1400px and up) */
+@media (min-width: 1400px) {
+    .child {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+        max-width: 1400px;
+    }
+    .child > * {
+        max-width: 320px;
+        height: 180px;
+    }
+}
+
+/* Desktop (1024px to 1399px) */
+@media (max-width: 1399px) and (min-width: 1024px) {
+    .child {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+    }
+    .child > * {
+        max-width: 280px;
+        height: 160px;
+        font-size: 1.4rem;
+    }
+}
+
+/* Tablet (768px to 1023px) */
+@media (max-width: 1023px) {
+    .child {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+    }
+    .child > * {
+        max-width: 260px;
+        height: 150px;
+        font-size: 1.2rem;
+    }
+}
+
+/* Mobile Large (481px to 767px) */
+@media (max-width: 767px) {
+    .child {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        padding: 0 0.5rem;
+    }
+    .child > * {
+        width: 100%;
+        max-width: 240px;
+        height: 140px;
+        font-size: 1rem;
+    }
+}
+
+/* Mobile Small (320px to 480px) */
+@media (max-width: 480px) {
+    .child {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 0 0.5rem;
+    }
+    .child > * {
+        max-width: 280px;
+        height: 160px;
+    }
+}
+
+/* Extra Small Mobile (below 320px) */
+@media (max-width: 319px) {
+    .child {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 0 0.25rem;
+    }
+    .child > * {
+        max-width: 260px;
+        height: 150px;
+    }
+}
+
+.parant h1{
+    color: #fff;
+    padding: 1rem 0 2rem 0;
+    font-size: 2.5rem;
+    text-align: center;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+}
+h1::after {
+    content: "";
+    display: block;
+    width: 100px;
+    height: 2px;
+    background-color: #fff;
+    margin: 0.5rem auto;
+}
+h1{
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+h1::before {
+   content: "";
+    background-color: #fff;
+    width: 265px;
+    /* height: 2px; */
+    margin: 0.5rem auto;
+    display: block;
+    margin: 25px;
+}
+
+/* Responsive Typography */
+@media (max-width: 1023px) {
+    .parant h1 {
+        font-size: 2rem;
+        padding: 0.5rem 0 1.5rem 0;
+    }
+}
+
+@media (max-width: 767px) {
+    .parant h1 {
+        font-size: 1.75rem;
+        padding: 0.5rem 0 1rem 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .parant h1 {
+        font-size: 1.5rem;
+        padding: 0.25rem 0 0.75rem 0;
+    }
+    
+    h1::before,
+    h1::after {
+        width: 60px;
+        height: 1px;
+    }
+}
+
+@media (max-width: 599px) {
+    .parant h1 {
+        font-size: 1.5rem;
+        padding: 0.25rem 0 0.75rem 0;
+    }
+    h1::before,
+    h1::after {
+        width: 60px;
+        height: 1px;
+    }
+}

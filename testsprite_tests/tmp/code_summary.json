@@ -1,0 +1,153 @@
+{
+  "tech_stack": [
+    "TypeScript",
+    "Next.js 15.3.4",
+    "React 19.0.0",
+    "MongoDB",
+    "Mongoose",
+    "Clerk Authentication",
+    "Styled Components",
+    "Framer Motion",
+    "Redux Toolkit",
+    "Jest",
+    "Playwright",
+    "ImageKit",
+    "Razorpay",
+    "Winston Logger"
+  ],
+  "features": [
+    {
+      "name": "AI Tools Discovery Platform",
+      "description": "A SaaS platform for discovering and managing AI tools with user authentication, tool categorization, and social features",
+      "files": [
+        "app/page.tsx",
+        "app/layout.tsx",
+        "app/globals.css"
+      ]
+    },
+    {
+      "name": "Authentication System",
+      "description": "User authentication and authorization using Clerk with MongoDB adapter",
+      "files": [
+        "middleware.ts",
+        "app/api/auth/[...nextauth]/route.ts",
+        "lib/db/websitedb.ts"
+      ]
+    },
+    {
+      "name": "Tool Management",
+      "description": "CRUD operations for AI tools with like, save, and categorization features",
+      "files": [
+        "app/api/tools/route.ts",
+        "app/api/tools/like/route.ts",
+        "app/api/tools/save/route.ts",
+        "app/api/tools/category/[category]/route.ts",
+        "models/tools.ts"
+      ]
+    },
+    {
+      "name": "Category System",
+      "description": "Tool categorization and filtering by category with dynamic routing",
+      "files": [
+        "app/category/[category]/page.tsx",
+        "components/B-components/category-page-compoo/SSRCategoryToolList.tsx",
+        "components/B-components/category-page-compoo/VirtualizedToolList.tsx"
+      ]
+    },
+    {
+      "name": "Interactive Components",
+      "description": "Optimized UI components for tool interaction including like, save, and visit buttons",
+      "files": [
+        "components/S-components/OptimizedLikeButton.tsx",
+        "components/S-components/OptimizedSaveButton.tsx",
+        "components/S-components/FlipCard.tsx",
+        "components/S-components/VisitButton.tsx"
+      ]
+    },
+    {
+      "name": "Performance Optimization",
+      "description": "Virtual scrolling, lazy loading, and API call management for handling large datasets",
+      "files": [
+        "components/B-components/category-page-compoo/VirtualizedToolList.tsx",
+        "lib/useUserActivity.ts",
+        "lib/rateLimiter.ts"
+      ]
+    },
+    {
+      "name": "Testing Infrastructure",
+      "description": "Comprehensive testing setup with Jest, React Testing Library, and Playwright",
+      "files": [
+        "jest.config.js",
+        "jest.setup.js",
+        "__tests__/components/",
+        "__tests__/api/",
+        "playwright.config.ts"
+      ]
+    },
+    {
+      "name": "Database Management",
+      "description": "MongoDB connection management with Mongoose schemas and models",
+      "files": [
+        "lib/db/websitedb.ts",
+        "models/tools.ts",
+        "models/user.ts"
+      ]
+    },
+    {
+      "name": "Payment Integration",
+      "description": "Razorpay payment processing for premium features",
+      "files": [
+        "app/api/payment/route.ts",
+        "RAZORPAY_SETUP.md"
+      ]
+    },
+    {
+      "name": "Image Management",
+      "description": "ImageKit integration for tool logo and image handling",
+      "files": [
+        "lib/imagekit.ts",
+        "app/api/upload/route.ts"
+      ]
+    },
+    {
+      "name": "State Management",
+      "description": "Redux Toolkit for global state management",
+      "files": [
+        "lib/store.ts",
+        "lib/slices/"
+      ]
+    },
+    {
+      "name": "Error Handling",
+      "description": "Comprehensive error handling and logging with Winston",
+      "files": [
+        "lib/logger.ts",
+        "components/B-components/alert/AlertContext.tsx"
+      ]
+    },
+    {
+      "name": "Rate Limiting",
+      "description": "API rate limiting for security and performance",
+      "files": [
+        "lib/rateLimiter.ts",
+        "middleware.ts"
+      ]
+    },
+    {
+      "name": "Saved Tools Management",
+      "description": "User-specific tool saving and organization system",
+      "files": [
+        "app/saved-tools/page.tsx",
+        "components/saved-tools/"
+      ]
+    },
+    {
+      "name": "Admin Panel",
+      "description": "Administrative interface for managing tools and users",
+      "files": [
+        "app/(admin)/",
+        "app/api/admin/"
+      ]
+    }
+  ]
+} 

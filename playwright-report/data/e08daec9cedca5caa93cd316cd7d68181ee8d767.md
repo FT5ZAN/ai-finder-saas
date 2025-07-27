@@ -1,0 +1,119 @@
+# Page snapshot
+
+```yaml
+- text: AI Finder
+- button "Home"
+- button "Category"
+- button "Pricing"
+- button "About"
+- button "Sign In"
+- button "Sign Up"
+- main:
+  - heading "all in one ai tools Tools" [level=1]
+  - searchbox "Search categories"
+  - text: Showing 1-10 of 13 tools
+  - img "ChatGPT"
+  - heading "ChatGPT" [level=3]
+  - button "❤️ Sign in to Like"
+  - button "💾 Sign in to Save"
+  - button "ℹ️ About"
+  - button "🌐 Visit"
+  - img "Chat with Z."
+  - heading "Chat with Z." [level=3]
+  - button "❤️ Sign in to Like"
+  - button "💾 Sign in to Save"
+  - button "ℹ️ About"
+  - button "🌐 Visit"
+  - img "Pikzels"
+  - heading "Pikzels" [level=3]
+  - button "❤️ Sign in to Like"
+  - button "💾 Sign in to Save"
+  - button "ℹ️ About"
+  - button "🌐 Visit"
+  - img "The Agentic Development Environment"
+  - heading "The Agentic Development Environment" [level=3]
+  - button "❤️ Sign in to Like"
+  - button "💾 Sign in to Save"
+  - button "ℹ️ About"
+  - button "🌐 Visit"
+  - img "Pixel."
+  - heading "Pixel." [level=3]
+  - button "❤️ Sign in to Like"
+  - button "💾 Sign in to Save"
+  - button "ℹ️ About"
+  - button "🌐 Visit"
+  - img "Runway"
+  - heading "Runway" [level=3]
+  - button "❤️ Sign in to Like"
+  - button "💾 Sign in to Save"
+  - button "ℹ️ About"
+  - button "🌐 Visit"
+  - img "AP Automation Software"
+  - heading "AP Automation Software" [level=3]
+  - button "❤️ Sign in to Like"
+  - button "💾 Sign in to Save"
+  - button "ℹ️ About"
+  - button "🌐 Visit"
+  - img "BLACKBOX."
+  - heading "BLACKBOX." [level=3]
+  - button "❤️ Sign in to Like"
+  - button "💾 Sign in to Save"
+  - button "ℹ️ About"
+  - button "🌐 Visit"
+  - img "getimg."
+  - heading "getimg." [level=3]
+  - button "❤️ Sign in to Like"
+  - button "💾 Sign in to Save"
+  - button "ℹ️ About"
+  - button "🌐 Visit"
+  - img "1up"
+  - heading "1up" [level=3]
+  - button "❤️ Sign in to Like"
+  - button "💾 Sign in to Save"
+  - button "ℹ️ About"
+  - button "🌐 Visit"
+  - button "← Previous" [disabled]
+  - button "1"
+  - button "2"
+  - button "Next →"
+- contentinfo:
+  - heading "AI Finder" [level=3]
+  - paragraph: Discover and explore the best AI tools across all categories. Your ultimate directory for artificial intelligence applications and tools.
+  - link "support@merlio.app":
+    - /url: mailto:support@merlio.app
+  - heading "Quick Links" [level=3]
+  - list:
+    - listitem:
+      - link "Home":
+        - /url: /
+    - listitem:
+      - link "About":
+        - /url: /about
+    - listitem:
+      - link "Pricing":
+        - /url: /priceing
+    - listitem:
+      - link "Saved Tools":
+        - /url: /saved-tools
+  - heading "Legal" [level=3]
+  - list:
+    - listitem:
+      - link "Privacy Policy":
+        - /url: /legal/privacy-policy
+    - listitem:
+      - link "Refund Policy":
+        - /url: /legal/refund-policy
+    - listitem:
+      - link "Terms & Conditions":
+        - /url: /legal/terms
+  - paragraph: © 2025 AI Finder. All rights reserved.
+  - link "merlio.app":
+    - /url: https://merlio.app
+  - text: •
+  - link "support@merlio.app":
+    - /url: mailto:support@merlio.app
+- toolbar "Application dock": No recent tools. Visit some tools to see your 5 most recent here! (FIFO - oldest removed when new tools are added)
+- alert: all in one ai tools AI Tools | Browse by Category
+- button "Open Next.js Dev Tools":
+  - img
+```
