@@ -21,15 +21,28 @@ const nextConfig: NextConfig = {
     // Temporarily disable ESLint for production build
     ignoreDuringBuilds: true,
   },
-  // Fix CSS preload warnings
-  experimental: {
-    optimizeCss: true,
-  },
+  // Remove experimental CSS optimization that's causing preload warnings
+  // experimental: {
+  //   optimizeCss: true,
+  // },
   // Add headers to fix preload issues
   async headers() {
     return [
       {
         source: '/_next/static/css/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+        ],
+      },
+      {
+        source: '/_next/static/js/:path*',
         headers: [
           {
             key: 'Cache-Control',
