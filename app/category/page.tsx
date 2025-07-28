@@ -28,6 +28,9 @@ export const metadata: Metadata = {
   },
 };
 
+// Add revalidation to ensure fresh data
+export const revalidate = 60; // Revalidate every 60 seconds
+
 // Retry function for database operations
 async function retryOperation<T>(
   operation: () => Promise<T>,
