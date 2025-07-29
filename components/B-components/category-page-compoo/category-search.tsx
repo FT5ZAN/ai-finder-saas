@@ -159,8 +159,17 @@ const CategorySearch: React.FC<CategorySearchProps> = ({
         </div>
       )}
 
-      <div className="parant">
-        <div className="child">
+      <div className="parant" style={{ width: '100%', minHeight: 'auto', padding: '1rem 0', display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
+        <div className="child" style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(4, 1fr)', 
+          gap: '20px', 
+          width: '100%', 
+          maxWidth: '1200px', 
+          margin: '0 auto', 
+          padding: '0 1rem', 
+          placeItems: 'center' 
+        }}>
           {isLoading && displayedCategories.length === 0 ? (
             // Loading skeleton
             Array.from({ length: ITEMS_PER_PAGE }).map((_, index) => (

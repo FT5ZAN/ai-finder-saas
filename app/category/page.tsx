@@ -55,7 +55,7 @@ async function retryOperation<T>(
 }
 
 // Get categories with pagination support
-async function getCategoriesWithPagination(limit: number = 20): Promise<{
+async function getCategoriesWithPagination(limit: number = 50): Promise<{
   categories: CategoryData[];
   totalCount: number;
 }> {
