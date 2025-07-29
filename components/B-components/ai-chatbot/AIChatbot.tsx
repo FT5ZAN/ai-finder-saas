@@ -656,14 +656,7 @@ export default function AIChatbot() {
               rows={1}
               data-testid="chat-input"
             />
-            {/* <button
-              onClick={() => setShowComplaintModal(true)}
-              disabled={isLoading}
-              className={styles.complaintButton}
-              title="Report an issue or complaint"
-            >
-              🚨
-            </button> */}
+            
             <button
               onClick={sendMessage}
               disabled={isLoading || !inputText.trim()}
