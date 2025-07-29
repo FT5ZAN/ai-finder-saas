@@ -33,7 +33,6 @@ const StyledWrapper = styled.div`
   .card {
     position: relative;
     width: 100%;
-    max-width: 280px;
     height: 160px;
     background-color: #f2f2f2;
     border-radius: 10px;
@@ -44,6 +43,11 @@ const StyledWrapper = styled.div`
     perspective: 1000px;
     box-shadow: 0 0 0 5px #ffffff80;
     transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    /* Ensure uniform size */
+    min-width: 280px;
+    max-width: 280px;
+    min-height: 160px;
+    max-height: 160px;
   }
 
   .card:hover {
@@ -58,6 +62,10 @@ const StyledWrapper = styled.div`
     justify-content: center;
     text-align: center;
     transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    width: 100%;
+    height: 100%;
+    padding: 16px;
+    box-sizing: border-box;
   }
 
   .card__content {
@@ -91,6 +99,10 @@ const StyledWrapper = styled.div`
     font-size: 20px;
     color: #333;
     font-weight: 700;
+    line-height: 1.2;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
   }
 
   .card__tool-count {
@@ -105,6 +117,9 @@ const StyledWrapper = styled.div`
     font-size: 12px;
     color: #777;
     line-height: 1.4;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
   }
 
   /* ===== RESPONSIVE DESIGN ===== */
@@ -112,8 +127,10 @@ const StyledWrapper = styled.div`
   /* Large Desktop (1400px and up) */
   @media (min-width: 1400px) {
     .card {
+      min-width: 320px;
       max-width: 320px;
-      height: 180px;
+      min-height: 180px;
+      max-height: 180px;
     }
 
     .card__content {
@@ -136,8 +153,10 @@ const StyledWrapper = styled.div`
   /* Desktop (1024px to 1399px) */
   @media (max-width: 1399px) and (min-width: 1024px) {
     .card {
+      min-width: 280px;
       max-width: 280px;
-      height: 160px;
+      min-height: 160px;
+      max-height: 160px;
     }
 
     .card__content {
@@ -160,8 +179,10 @@ const StyledWrapper = styled.div`
   /* Tablet (768px to 1023px) */
   @media (max-width: 1023px) and (min-width: 768px) {
     .card {
+      min-width: 260px;
       max-width: 260px;
-      height: 150px;
+      min-height: 150px;
+      max-height: 150px;
     }
 
     .card__content {
@@ -184,8 +205,10 @@ const StyledWrapper = styled.div`
   /* Mobile Large (481px to 767px) */
   @media (max-width: 767px) and (min-width: 481px) {
     .card {
+      min-width: 240px;
       max-width: 240px;
-      height: 140px;
+      min-height: 140px;
+      max-height: 140px;
     }
 
     .card__content {
@@ -208,8 +231,10 @@ const StyledWrapper = styled.div`
   /* Mobile Small (320px to 480px) */
   @media (max-width: 480px) {
     .card {
+      min-width: 280px;
       max-width: 280px;
-      height: 160px;
+      min-height: 160px;
+      max-height: 160px;
     }
 
     .card__content {
@@ -232,8 +257,10 @@ const StyledWrapper = styled.div`
   /* Extra Small Mobile (below 320px) */
   @media (max-width: 319px) {
     .card {
+      min-width: 260px;
       max-width: 260px;
-      height: 150px;
+      min-height: 150px;
+      max-height: 150px;
     }
 
     .card__content {
