@@ -638,6 +638,14 @@ export default function AIChatbot() {
 
         <div className={styles.inputContainer}>
           <div className={styles.inputWrapper}>
+          <button
+              onClick={() => setShowComplaintModal(true)}
+              disabled={isLoading}
+              className={styles.complaintButton}
+              title="Report an issue or complaint"
+            >
+              🚨
+            </button>
             <textarea
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
@@ -648,14 +656,14 @@ export default function AIChatbot() {
               rows={1}
               data-testid="chat-input"
             />
-            <button
+            {/* <button
               onClick={() => setShowComplaintModal(true)}
               disabled={isLoading}
               className={styles.complaintButton}
               title="Report an issue or complaint"
             >
               🚨
-            </button>
+            </button> */}
             <button
               onClick={sendMessage}
               disabled={isLoading || !inputText.trim()}

@@ -1,18 +1,16 @@
 .container {
-  position: relative;
-  flex-direction: column;
-  max-width: 1290px;
-  max-height: 75vh;
-  margin: 12px auto;
-  padding: 20px;
-  display: flex;
-  min-height: 600px;
-  background: transparent;
-  border-radius: 25px;
-  box-shadow: 
-    0 25px 50px rgba(0, 0, 0, 0.1),
-    0 0 0 1px rgba(255, 255, 255, 0.05),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  
+    background-color: black;
+    border-radius: 25px;
+    flex-direction: column;
+    max-width: 1345px;
+    min-height: 450px;
+    max-height: 75vh;
+    margin: 5px auto;
+    padding: 0px;
+    display: flex;
+    position: relative;
+    box-shadow: 0 25px 50px #0000001a, 0 0 0 1px #ffffff0d, inset 0 1px #ffffff1a;
 }
 
 /* Screen reader only class for accessibility */
@@ -49,7 +47,7 @@
   position: relative;
   z-index: 1;
   flex: 1;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(25px);
   -webkit-backdrop-filter: blur(25px);
   border-radius: 20px;
@@ -76,15 +74,14 @@
 }
 
 .messages {
-  flex: 1;
-  padding: 25px;
-  overflow-y: auto;
-  max-height: 70vh;
-  background: transparent;
   scroll-behavior: smooth;
-  /* Ensure smooth scrolling within the container */
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+    scrollbar-width: thin;
+    scrollbar-color: #ffffff4d transparent;
+    background: black;
+    flex: 1;
+    max-height: 70vh;
+    padding: 5px;
+    overflow-y: auto;
 }
 
 .message {
@@ -115,7 +112,7 @@
 
 .messageContent {
   max-width: 85%;
-  padding: 25px;
+  padding: 10px;
   border-radius: 25px;
   position: relative;
   backdrop-filter: blur(20px);
@@ -157,7 +154,7 @@
 .aiMessage .messageContent {
   background: rgba(255, 255, 255, 0.08);
   color: rgba(255, 255, 255, 0.9);
-  border-bottom-left-radius: 10px;
+  border-bottom-left-radius: 0px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 
     0 15px 35px rgba(0, 0, 0, 0.05),
@@ -944,9 +941,9 @@
 }
 
 .inputContainer {
-  padding: 30px;
+  padding: 5px;
   border-top: 2px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.05);
   backdrop-filter: blur(25px);
   -webkit-backdrop-filter: blur(25px);
   box-shadow: 
