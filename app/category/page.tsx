@@ -2,7 +2,7 @@ import { connectToolsDB } from '@/lib/db/websitedb';
 import { getToolModel } from '@/models/tools';
 import CategorySearch from '@/components/B-components/category-page-compoo/category-search';
 import ErrorFallback from '@/components/B-components/category-page-compoo/ErrorFallback';
-import './category.css';
+import styles from './category.module.css';
 import { Metadata } from 'next';
 
 interface CategoryData {
@@ -54,7 +54,11 @@ async function retryOperation<T>(
   throw new Error('All retry attempts failed');
 }
 
-export default async function CategoryPage() {
+// Get categories with pagination support
+async function getCategoriesWithPagination(limit: number = 20): Promise<{
+  categories: CategoryData[];
+  totalCount: number;
+}> {
   try {
     // Retry database connection
     await retryOperation(async () => {
@@ -105,21 +109,39 @@ export default async function CategoryPage() {
       return data;
     }, 2, 1000);
 
-    console.log(`Loaded ${categoryData.length} categories`);
+    // Sort by tool count (most popular first) and limit to initial load
+    const sortedCategories = categoryData
+      .sort((a, b) => b.toolCount - a.toolCount)
+      .slice(0, limit);
+
+    return {
+      categories: sortedCategories,
+      totalCount: categoryData.length
+    };
+  } catch (error) {
+    console.error('Database connection error:', error);
+    return {
+      categories: [],
+      totalCount: 0
+    };
+  }
+}
+
+export default async function CategoryPage() {
+  try {
+    // Get categories with pagination (show first 20 initially)
+    const { categories, totalCount } = await getCategoriesWithPagination(20);
+    
+    console.log(`Loaded ${categories.length} categories (${totalCount} total available)`);
 
     return (
-      <div className="category-page">
-        <div className="category-header">
-          <div className="container">
-            <h1 className="category-title">AI Tool Categories</h1>
-            {/* <p className="category-subtitle">
-              Discover the perfect AI tools organized by category. Find exactly what you need for your projects.
-            </p> */}
-          </div>
-        </div>
-        <div className="category-content">
-          <div className="container">
-            <CategorySearch initialCategories={categoryData} />
+      <div className={styles.container}>
+        <div className={styles.wrapper}>
+          <div className={styles.grid}>
+            <CategorySearch 
+              initialCategories={categories} 
+              totalCategoryCount={totalCount}
+            />
           </div>
         </div>
       </div>
@@ -128,17 +150,9 @@ export default async function CategoryPage() {
     console.error('Database connection error:', error);
     
     return (
-      <div className="category-page">
-        <div className="category-header">
-          <div className="container">
-            <h1 className="category-title">AI Tool Categories</h1>
-            <p className="category-subtitle">
-              Discover the perfect AI tools organized by category. Find exactly what you need for your projects.
-            </p>
-          </div>
-        </div>
-        <div className="category-content">
-          <div className="container">
+      <div className={styles.container}>
+        <div className={styles.wrapper}>
+          <div className={styles.grid}>
             <ErrorFallback />
           </div>
         </div>

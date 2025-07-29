@@ -12,17 +12,21 @@ interface CategoryData {
 
 interface CategorySearchProps {
   initialCategories: CategoryData[];
+  totalCategoryCount?: number;
 }
 
-const CategorySearch: React.FC<CategorySearchProps> = ({ initialCategories }) => {
+const CategorySearch: React.FC<CategorySearchProps> = ({ 
+  initialCategories, 
+  totalCategoryCount = 0 
+}) => {
   const [categories, setCategories] = useState<CategoryData[]>(initialCategories);
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [displayedCategories, setDisplayedCategories] = useState<CategoryData[]>([]);
 
-  // Performance optimization: items per page - show all categories
-  const ITEMS_PER_PAGE = 50; // Show more categories per page
+  // Performance optimization: items per page - show 20 categories per page
+  const ITEMS_PER_PAGE = 20; // Show 20 categories per page
 
   // Function to refresh category data
   const refreshCategories = useCallback(async () => {
@@ -117,18 +121,21 @@ const CategorySearch: React.FC<CategorySearchProps> = ({ initialCategories }) =>
         <SearchBar onSearch={handleSearchChange} />
       </div>
       
-      {/* Debug Info */}
-      <div style={{
-        textAlign: 'center',
-        marginBottom: '1rem',
-        color: '#fff',
-        fontSize: '0.9rem',
-        background: 'rgba(255, 255, 255, 0.1)',
-        padding: '0.5rem',
-        borderRadius: '5px'
-      }}>
-        Showing {startIndex + 1}-{Math.min(endIndex, filteredCategories.length)} of {filteredCategories.length} categories (Total: {categories.length})
-      </div>
+      {/* Pagination Info */}
+      {!searchTerm && totalCategoryCount > 0 && (
+        <div style={{
+          textAlign: 'center',
+          marginBottom: '1rem',
+          color: '#fff',
+          fontSize: '0.9rem',
+          background: 'rgba(255, 255, 255, 0.1)',
+          padding: '0.5rem',
+          borderRadius: '5px'
+        }}>
+          Showing {startIndex + 1}-{Math.min(endIndex, filteredCategories.length)} of {filteredCategories.length} categories
+          {totalCategoryCount > filteredCategories.length && ` (${totalCategoryCount} total available)`}
+        </div>
+      )}
 
       {/* Search Results Info */}
       {searchTerm && (
@@ -248,6 +255,30 @@ const CategorySearch: React.FC<CategorySearchProps> = ({ initialCategories }) =>
                   >
                     Next →
                   </button>
+                </div>
+              )}
+
+              {/* Load More Indicator for Total Categories */}
+              {totalCategoryCount > filteredCategories.length && !searchTerm && (
+                <div style={{
+                  gridColumn: '1 / -1',
+                  textAlign: 'center',
+                  padding: '1rem',
+                  color: '#fff',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  borderRadius: '10px',
+                  border: '1px solid rgba(255, 255, 255, 0.1)'
+                }}>
+                  <p style={{ margin: '0 0 1rem 0' }}>
+                    Showing {filteredCategories.length} of {totalCategoryCount} categories
+                  </p>
+                  <p style={{ 
+                    margin: '0', 
+                    fontSize: '0.9rem', 
+                    color: '#cccccc' 
+                  }}>
+                    More categories are available. Use search to find specific categories.
+                  </p>
                 </div>
               )}
             </>

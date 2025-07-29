@@ -1,0 +1,190 @@
+/* Category Page CSS Module - Optimized for performance */
+.container {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.wrapper {
+  width: 100%;
+  min-height: auto;
+  padding: 1rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  place-items: center;
+}
+
+/* Card size for desktop */
+.grid > * {
+  width: 100%;
+  max-width: 280px;
+  height: 160px;
+  font-size: 1.5rem;
+}
+
+/* Large Desktop (1400px and up) */
+@media (min-width: 1400px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    max-width: 1400px;
+  }
+  .grid > * {
+    max-width: 320px;
+    height: 180px;
+  }
+}
+
+/* Desktop (1024px to 1399px) */
+@media (max-width: 1399px) and (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  .grid > * {
+    max-width: 280px;
+    height: 160px;
+    font-size: 1.4rem;
+  }
+}
+
+/* Tablet (768px to 1023px) */
+@media (max-width: 1023px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .grid > * {
+    max-width: 260px;
+    height: 150px;
+    font-size: 1.2rem;
+  }
+}
+
+/* Mobile Large (481px to 767px) */
+@media (max-width: 767px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 0 0.5rem;
+  }
+  .grid > * {
+    width: 100%;
+    max-width: 240px;
+    height: 140px;
+    font-size: 1rem;
+  }
+}
+
+/* Mobile Small (320px to 480px) */
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 0 0.5rem;
+  }
+  .grid > * {
+    max-width: 280px;
+    height: 160px;
+  }
+}
+
+/* Extra Small Mobile (below 320px) */
+@media (max-width: 319px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 0 0.25rem;
+  }
+  .grid > * {
+    max-width: 260px;
+    height: 150px;
+  }
+}
+
+/* Typography styles */
+.title {
+  color: #fff;
+  padding: 1rem 0 2rem 0;
+  font-size: 2.5rem;
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.heading {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.heading::before {
+  content: "";
+  background-color: #fff;
+  width: 265px;
+  margin: 25px auto;
+  display: block;
+}
+
+.heading::after {
+  content: "";
+  display: block;
+  width: 100px;
+  height: 2px;
+  background-color: #fff;
+  margin: 0.5rem auto;
+}
+
+/* Responsive Typography */
+@media (max-width: 1023px) {
+  .title {
+    font-size: 2rem;
+    padding: 0.5rem 0 1.5rem 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .title {
+    font-size: 1.75rem;
+    padding: 0.5rem 0 1rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.5rem;
+    padding: 0.25rem 0 0.75rem 0;
+  }
+  
+  .heading::before,
+  .heading::after {
+    width: 60px;
+    height: 1px;
+  }
+}
+
+@media (max-width: 599px) {
+  .title {
+    font-size: 1.5rem;
+    padding: 0.25rem 0 0.75rem 0;
+  }
+  .heading::before,
+  .heading::after {
+    width: 60px;
+    height: 1px;
+  }
+}

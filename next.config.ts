@@ -21,10 +21,10 @@ const nextConfig: NextConfig = {
     // Temporarily disable ESLint for production build
     ignoreDuringBuilds: true,
   },
-  // Remove experimental CSS optimization that's causing preload warnings
-  // experimental: {
-  //   optimizeCss: true,
-  // },
+  // Optimize CSS loading to prevent preload warnings
+  experimental: {
+    optimizePackageImports: ['@clerk/nextjs'],
+  },
   // Add headers to fix preload issues
   async headers() {
     return [
@@ -51,6 +51,19 @@ const nextConfig: NextConfig = {
         ],
       },
     ];
+  },
+  // Optimize CSS loading
+  webpack: (config, { dev, isServer }) => {
+    // Optimize CSS loading for production
+    if (!dev && !isServer) {
+      config.optimization.splitChunks.cacheGroups.styles = {
+        name: 'styles',
+        test: /\.(css|scss)$/,
+        chunks: 'all',
+        enforce: true,
+      };
+    }
+    return config;
   },
 };
 
