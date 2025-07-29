@@ -2,7 +2,7 @@ import { connectToolsDB } from '@/lib/db/websitedb';
 import { getToolModel } from '@/models/tools';
 import CategorySearch from '@/components/B-components/category-page-compoo/category-search';
 import ErrorFallback from '@/components/B-components/category-page-compoo/ErrorFallback';
-import styles from './category.module.css';
+import './category.module.css';
 import { Metadata } from 'next';
 
 interface CategoryData {
@@ -129,15 +129,15 @@ async function getCategoriesWithPagination(limit: number = 20): Promise<{
 
 export default async function CategoryPage() {
   try {
-    // Get categories with pagination (show first 20 initially)
-    const { categories, totalCount } = await getCategoriesWithPagination(20);
+    // Get categories with pagination (show first 50 initially to have multiple pages)
+    const { categories, totalCount } = await getCategoriesWithPagination(50);
     
     console.log(`Loaded ${categories.length} categories (${totalCount} total available)`);
 
     return (
-      <div className={styles.container}>
-        <div className={styles.wrapper}>
-          <div className={styles.grid}>
+      <div className="grandp">
+        <div className="parant">
+          <div className="child">
             <CategorySearch 
               initialCategories={categories} 
               totalCategoryCount={totalCount}
@@ -150,9 +150,9 @@ export default async function CategoryPage() {
     console.error('Database connection error:', error);
     
     return (
-      <div className={styles.container}>
-        <div className={styles.wrapper}>
-          <div className={styles.grid}>
+      <div className="grandp">
+        <div className="parant">
+          <div className="child">
             <ErrorFallback />
           </div>
         </div>

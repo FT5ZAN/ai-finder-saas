@@ -69,6 +69,16 @@ const CategorySearch: React.FC<CategorySearchProps> = ({
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
 
+  // Debug log to see pagination state
+  console.log('Pagination Debug:', {
+    filteredCategoriesLength: filteredCategories.length,
+    totalPages,
+    currentPage,
+    startIndex,
+    endIndex,
+    ITEMS_PER_PAGE
+  });
+
   // Update displayed categories when search or page changes
   useEffect(() => {
     setIsLoading(true);
@@ -178,7 +188,7 @@ const CategorySearch: React.FC<CategorySearchProps> = ({
               ))}
               
               {/* Pagination Controls */}
-              {totalPages > 1 && (
+              {totalPages >= 1 && (
                 <div style={{
                   gridColumn: '1 / -1',
                   display: 'flex',
@@ -255,6 +265,23 @@ const CategorySearch: React.FC<CategorySearchProps> = ({
                   >
                     Next →
                   </button>
+                </div>
+              )}
+
+              {/* Show message when only one page */}
+              {totalPages === 1 && (
+                <div style={{
+                  gridColumn: '1 / -1',
+                  textAlign: 'center',
+                  padding: '1rem',
+                  color: '#fff',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  borderRadius: '10px',
+                  border: '1px solid rgba(255, 255, 255, 0.1)'
+                }}>
+                  <p style={{ margin: '0', fontSize: '0.9rem', color: '#cccccc' }}>
+                    Showing all {filteredCategories.length} categories
+                  </p>
                 </div>
               )}
 
