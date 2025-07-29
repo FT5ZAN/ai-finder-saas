@@ -1,6 +1,6 @@
 /* Navbar Container */
 #navparant {
-    height: 85px;
+    height: 75px;
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -8,7 +8,7 @@
 }
 .navbar-main {
   position: fixed;
-  top: 16px;
+  top: 4px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 50;
@@ -245,7 +245,7 @@
 }
 
 #navparant, .navbar-main, .navbar-desktop, .navbar-mobile, .logo-text, .nav-items, .nav-btn, .mobile-menu-btn, .mobile-nav-btn {
-  font-family: 'Courier New', Courier, monospace !important;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 /* ===== RESPONSIVE DESIGN ===== */

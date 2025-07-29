@@ -291,7 +291,7 @@ export default function HistoryBar() {
             padding: '8px 16px',
             textAlign: 'center'
           }}>
-            No recent tools. Visit some tools to see your 5 most recent here! (FIFO - oldest removed when new tools are added)
+            Recent Visited Tools
           </div>
         </div>
       </div>
