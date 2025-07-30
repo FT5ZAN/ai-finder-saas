@@ -122,123 +122,40 @@ const CategorySearch: React.FC<CategorySearchProps> = ({
 
   return (
     <>
-      {/* Pagination Info - Redesigned */}
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        marginBottom: '2rem',
+        padding: '0 1rem'
+      }}>
+        <SearchBar onSearch={handleSearchChange} />
+      </div>
+      
+      {/* Pagination Info */}
       {!searchTerm && totalCategoryCount > 0 && (
         <div style={{
           textAlign: 'center',
-          marginBottom: '2rem',
-          padding: '1rem 2rem',
+          marginBottom: '1rem',
           color: '#fff',
-          fontSize: '1rem',
-          fontWeight: '500',
-          background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%)',
-          borderRadius: '12px',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
-          backdropFilter: 'blur(10px)',
-          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
-          position: 'relative',
-          overflow: 'hidden'
+          fontSize: '0.9rem',
+          background: 'rgba(255, 255, 255, 0.1)',
+          padding: '0.5rem',
+          borderRadius: '5px'
         }}>
-          {/* Background decoration */}
-          <div style={{
-            position: 'absolute',
-            top: '0',
-            left: '0',
-            right: '0',
-            height: '2px',
-            background: 'linear-gradient(90deg, #667eea 0%, #764ba2 100%)',
-            borderRadius: '12px 12px 0 0'
-          }} />
-          
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '0.5rem',
-            flexWrap: 'wrap'
-          }}>
-            <span style={{ fontSize: '1.1rem', fontWeight: '600' }}>
-              📊
-            </span>
-            <span>
-              Showing <strong>{startIndex + 1}-{Math.min(endIndex, filteredCategories.length)}</strong> of <strong>{filteredCategories.length}</strong> categories
-            </span>
-            {totalCategoryCount > filteredCategories.length && (
-              <span style={{
-                marginLeft: '0.5rem',
-                padding: '0.25rem 0.75rem',
-                background: 'rgba(255, 255, 255, 0.1)',
-                borderRadius: '20px',
-                fontSize: '0.85rem',
-                border: '1px solid rgba(255, 255, 255, 0.2)'
-              }}>
-                +{totalCategoryCount - filteredCategories.length} more available
-              </span>
-            )}
-          </div>
-          
-          {/* Progress indicator */}
-          <div style={{
-            marginTop: '0.75rem',
-            width: '100%',
-            height: '4px',
-            background: 'rgba(255, 255, 255, 0.1)',
-            borderRadius: '2px',
-            overflow: 'hidden'
-          }}>
-            <div style={{
-              width: `${(filteredCategories.length / totalCategoryCount) * 100}%`,
-              height: '100%',
-              background: 'linear-gradient(90deg, #667eea 0%, #764ba2 100%)',
-              borderRadius: '2px',
-              transition: 'width 0.3s ease'
-            }} />
-          </div>
+          Showing {startIndex + 1}-{Math.min(endIndex, filteredCategories.length)} of {filteredCategories.length} categories
+          {totalCategoryCount > filteredCategories.length && ` (${totalCategoryCount} total available)`}
         </div>
       )}
 
-      {/* Search Results Info - Redesigned */}
+      {/* Search Results Info */}
       {searchTerm && (
         <div style={{
           textAlign: 'center',
-          marginBottom: '2rem',
-          padding: '1rem 2rem',
+          marginBottom: '1rem',
           color: '#fff',
-          fontSize: '1rem',
-          fontWeight: '500',
-          background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%)',
-          borderRadius: '12px',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
-          backdropFilter: 'blur(10px)',
-          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
-          position: 'relative',
-          overflow: 'hidden'
+          fontSize: '0.9rem'
         }}>
-          {/* Background decoration */}
-          <div style={{
-            position: 'absolute',
-            top: '0',
-            left: '0',
-            right: '0',
-            height: '2px',
-            background: 'linear-gradient(90deg, #22c55e 0%, #10b981 100%)',
-            borderRadius: '12px 12px 0 0'
-          }} />
-          
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '0.5rem',
-            flexWrap: 'wrap'
-          }}>
-            <span style={{ fontSize: '1.1rem', fontWeight: '600' }}>
-              🔍
-            </span>
-            <span>
-              Found <strong>{filteredCategories.length}</strong> categor{filteredCategories.length !== 1 ? 'ies' : 'y'} for "<strong>{searchTerm}</strong>"
-            </span>
-          </div>
+          Found {filteredCategories.length} category{filteredCategories.length !== 1 ? 'ies' : 'y'} for "{searchTerm}"
         </div>
       )}
 

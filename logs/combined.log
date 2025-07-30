@@ -13843,3 +13843,8 @@
 2025-07-30 12:23:38 [INFO]: Reusing existing USER DB connection 
 2025-07-30 12:23:49 [INFO]: Reusing existing USER DB connection 
 2025-07-30 12:27:08 [INFO]: Reusing existing USER DB connection 
+2025-07-30 12:57:02 [WARN]: MongoDB connection disconnected 
+2025-07-30 13:37:12 [INFO]: Initiating new USER DB connection 
+2025-07-30 13:37:15 [INFO]: MongoDB connected successfully {"uri":"mongodb+srv://AifinderSaas:****@cluster0.vkgdjmz.mongodb.net/SaasDB?retryWrites=true&w=majority"}
+2025-07-30 13:37:15 [INFO]: USER DB connected successfully 
+2025-07-30 13:38:32 [INFO]: Reusing existing USER DB connection 
