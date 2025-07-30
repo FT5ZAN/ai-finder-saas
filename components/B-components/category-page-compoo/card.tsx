@@ -95,31 +95,29 @@ const StyledWrapper = styled.div`
   }
 
   .card__title {
-    margin: 0;
-    font-size: 20px;
+   margin: 0px;
     color: #333;
-    font-weight: 700;
-    line-height: 1.2;
+    font-weight: bolder;
+    line-height: 2.2;
     word-wrap: break-word;
     overflow-wrap: break-word;
-    max-width: 100%;
+    max-width: 100%
   }
 
   .card__tool-count {
     margin: 8px 0 0;
-    font-size: 14px;
     color: #666;
-    font-weight: 500;
+    font-weight: bold;
   }
 
   .card__description {
     margin: 0;
-    font-size: 12px;
-    color: #777;
+    color: black;
     line-height: 1.4;
     word-wrap: break-word;
     overflow-wrap: break-word;
     max-width: 100%;
+    font-weight: bold;
   }
 
   /* ===== RESPONSIVE DESIGN ===== */

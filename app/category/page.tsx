@@ -2,7 +2,7 @@ import { connectToolsDB } from '@/lib/db/websitedb';
 import { getToolModel } from '@/models/tools';
 import CategorySearch from '@/components/B-components/category-page-compoo/category-search';
 import ErrorFallback from '@/components/B-components/category-page-compoo/ErrorFallback';
-import './category.module.css';
+import styles from './category.module.css';
 import { Metadata } from 'next';
 
 interface CategoryData {
@@ -135,9 +135,10 @@ export default async function CategoryPage() {
     console.log(`Loaded ${categories.length} categories (${totalCount} total available)`);
 
     return (
-      <div className="grandp">
-        <div className="parant">
-          <div className="child">
+      <div className={styles.grandp}>
+        <div className={styles.parant}>
+          <div className={styles.child}>
+            <h1 className={styles.title}>Categories</h1>
             <CategorySearch 
               initialCategories={categories} 
               totalCategoryCount={totalCount}
@@ -150,9 +151,9 @@ export default async function CategoryPage() {
     console.error('Database connection error:', error);
     
     return (
-      <div className="grandp">
-        <div className="parant">
-          <div className="child">
+      <div className={styles.grandp}>
+        <div className={styles.parant}>
+          <div className={styles.child}>
             <ErrorFallback />
           </div>
         </div>
