@@ -23,6 +23,13 @@
   margin: 0 auto;
   padding: 0 1rem;
   place-items: center;
+  
+}
+
+.child-inner {
+  background-color: #04ecec;
+  width: 100%;
+  height: 100%;
 }
 
 /* Card size for desktop - Uniform sizing */
@@ -38,6 +45,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  
 }
 
 /* Large Desktop (1400px and up) */
@@ -134,7 +142,7 @@
 
 /* Typography styles */
 .title {
-  color: #fff;
+  color: hsl(0, 0%, 100%);
   padding: 1rem 0 2rem 0;
   font-size: 2.5rem;
   text-align: center;

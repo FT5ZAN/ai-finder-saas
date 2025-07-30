@@ -57,12 +57,14 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
 const StyledWrapper = styled.div`
   .group {
     display: flex;
-    line-height: 28px;
+    line-height: 20px;
     align-items: center;
     position: relative;
     max-width: 400px;
-    width: 100%;margin-bottom: 2rem;
-  }
+    width: 100%;
+    margin-bottom: 0rem;
+
+    }
 
   .input {
     font-family: "Montserrat", sans-serif;
