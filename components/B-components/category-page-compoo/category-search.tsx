@@ -215,14 +215,6 @@ const CategorySearch: React.FC<CategorySearchProps> = ({
               {/* Pagination Controls */}
               {paginationInfo.totalPages > 1 && (
                 <div className="pagination-controls">
-                  {console.log('Rendering pagination controls:', {
-                    currentPage: paginationInfo.currentPage,
-                    totalPages: paginationInfo.totalPages,
-                    hasNextPage: paginationInfo.hasNextPage,
-                    hasPrevPage: paginationInfo.hasPrevPage,
-                    totalCategories: paginationInfo.totalCategories
-                  })}
-                  
                   {/* Previous Button */}
                   <button
                     onClick={goToPreviousPage}
