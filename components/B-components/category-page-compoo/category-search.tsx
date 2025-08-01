@@ -15,8 +15,8 @@ interface PaginationInfo {
   totalPages: number;
   totalCategories: number;
   hasNextPage: boolean;
-  hasPreviousPage: boolean;
-  itemsPerPage: number;
+  hasPrevPage: boolean;
+  limit: number;
 }
 
 interface CategorySearchProps {
@@ -32,46 +32,71 @@ const CategorySearch: React.FC<CategorySearchProps> = ({
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [displayedCategories, setDisplayedCategories] = useState<CategoryData[]>(initialCategories);
-  const [paginationInfo, setPaginationInfo] = useState<PaginationInfo>({
-    currentPage: 1,
-    totalPages: Math.ceil(totalCategoryCount / 20),
-    totalCategories: totalCategoryCount,
-    hasNextPage: totalCategoryCount > 20,
-    hasPreviousPage: false,
-    itemsPerPage: 20
+  const [paginationInfo, setPaginationInfo] = useState<PaginationInfo>(() => {
+    // Calculate initial pagination state based on initial categories
+    const totalPages = Math.ceil(totalCategoryCount / 20);
+    const hasNextPage = totalCategoryCount > 20;
+    
+    console.log('Initial pagination state:', {
+      totalCategoryCount,
+      totalPages,
+      hasNextPage,
+      initialCategoriesLength: initialCategories.length
+    });
+    
+    return {
+      currentPage: 1,
+      totalPages,
+      totalCategories: totalCategoryCount,
+      hasNextPage,
+      hasPrevPage: false,
+      limit: 20
+    };
   });
 
   // Performance optimization: items per page - show 20 categories per page
-  const ITEMS_PER_PAGE = 20; // Show 20 categories per page
+  const ITEMS_PER_PAGE = 20;
 
-  // Function to fetch categories from API with pagination
-  const fetchCategories = useCallback(async (page: number = 1, search: string = '') => {
+  // Function to fetch categories with server-side pagination
+  const fetchCategories = useCallback(async (page: number, search: string = '') => {
     try {
+      console.log('Fetching categories:', { page, search });
       setIsLoading(true);
       
-      // Build API URL with pagination parameters
       const params = new URLSearchParams({
         page: page.toString(),
         limit: ITEMS_PER_PAGE.toString()
       });
       
-      const response = await fetch(`/api/categories?${params}`);
+      if (search.trim()) {
+        params.append('search', search.trim());
+      }
+
+      const url = `/api/categories?${params}`;
+      console.log('API URL:', url);
+
+      const response = await fetch(url);
       if (response.ok) {
         const data = await response.json();
         console.log('API Response:', data); // Debug log
         
         if (data.success) {
+          console.log('Setting categories:', data.categories?.length || 0);
+          console.log('Setting pagination:', data.pagination);
+          
           setCategories(data.categories || []);
-          setPaginationInfo(data.pagination || {
-            currentPage: page,
-            totalPages: 1,
-            totalCategories: data.categories?.length || 0,
-            hasNextPage: false,
-            hasPreviousPage: page > 1,
-            itemsPerPage: ITEMS_PER_PAGE
-          });
+          
+          // Update pagination info with the correct current page
+          const updatedPagination = {
+            ...data.pagination,
+            currentPage: page // Ensure current page is set correctly
+          };
+          
+          console.log('Updated pagination info:', updatedPagination);
+          setPaginationInfo(updatedPagination);
         }
+      } else {
+        console.error('API response not ok:', response.status, response.statusText);
       }
     } catch (error) {
       console.error('Error fetching categories:', error);
@@ -80,75 +105,70 @@ const CategorySearch: React.FC<CategorySearchProps> = ({
     }
   }, []);
 
-  // Function to refresh category data
-  const refreshCategories = useCallback(async () => {
-    await fetchCategories(currentPage, searchTerm);
-  }, [fetchCategories, currentPage, searchTerm]);
+  // Initial load - only run once on mount
+  useEffect(() => {
+    // Only fetch if we don't have initial categories or if search term changes
+    if (searchTerm || categories.length === 0) {
+      fetchCategories(1, searchTerm);
+    }
+  }, [searchTerm]); // Remove fetchCategories from dependency to prevent infinite loop
 
   // Refresh categories every 5 minutes to get updated counts
   useEffect(() => {
-    const interval = setInterval(refreshCategories, 5 * 60 * 1000); // 5 minutes
+    const interval = setInterval(() => {
+      fetchCategories(currentPage, searchTerm);
+    }, 5 * 60 * 1000); // 5 minutes
     return () => clearInterval(interval);
-  }, [refreshCategories]);
-
-  // Filter categories based on search term (client-side filtering for search)
-  const filteredCategories = useMemo(() => {
-    if (!searchTerm.trim()) {
-      return categories;
-    }
-
-    const searchLower = searchTerm.toLowerCase();
-    return categories.filter(category =>
-      category.name.toLowerCase().includes(searchLower) ||
-      category.description.toLowerCase().includes(searchLower)
-    );
-  }, [categories, searchTerm]);
-
-  // Update displayed categories when search or page changes
-  useEffect(() => {
-    setIsLoading(true);
-    
-    // Simulate loading for better UX
-    const timer = setTimeout(() => {
-      setDisplayedCategories(filteredCategories);
-      setIsLoading(false);
-    }, 100);
-
-    return () => clearTimeout(timer);
-  }, [filteredCategories]);
-
-  // Reset to first page when search changes
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [searchTerm]);
+  }, [currentPage, searchTerm]); // Remove fetchCategories from dependency
 
   const handleSearchChange = (value: string) => {
     setSearchTerm(value);
+    setCurrentPage(1); // Reset to first page when searching
   };
 
-  // Navigation functions with API calls
-  const goToNextPage = useCallback(async () => {
+  // Navigation functions with server-side pagination
+  const goToNextPage = useCallback(() => {
+    console.log('Next button clicked:', {
+      currentPage: paginationInfo.currentPage,
+      hasNextPage: paginationInfo.hasNextPage,
+      totalPages: paginationInfo.totalPages
+    });
+    
     if (paginationInfo.hasNextPage) {
-      const nextPage = currentPage + 1;
+      const nextPage = paginationInfo.currentPage + 1;
+      console.log('Fetching next page:', nextPage);
       setCurrentPage(nextPage);
-      await fetchCategories(nextPage, searchTerm);
+      fetchCategories(nextPage, searchTerm);
     }
-  }, [currentPage, paginationInfo.hasNextPage, fetchCategories, searchTerm]);
+  }, [paginationInfo.currentPage, paginationInfo.hasNextPage, searchTerm]);
 
-  const goToPreviousPage = useCallback(async () => {
-    if (paginationInfo.hasPreviousPage) {
-      const prevPage = currentPage - 1;
+  const goToPreviousPage = useCallback(() => {
+    console.log('Previous button clicked:', {
+      currentPage: paginationInfo.currentPage,
+      hasPrevPage: paginationInfo.hasPrevPage
+    });
+    
+    if (paginationInfo.hasPrevPage) {
+      const prevPage = paginationInfo.currentPage - 1;
+      console.log('Fetching previous page:', prevPage);
       setCurrentPage(prevPage);
-      await fetchCategories(prevPage, searchTerm);
+      fetchCategories(prevPage, searchTerm);
     }
-  }, [currentPage, paginationInfo.hasPreviousPage, fetchCategories, searchTerm]);
+  }, [paginationInfo.currentPage, paginationInfo.hasPrevPage, searchTerm]);
 
-  const goToPage = useCallback(async (page: number) => {
+  const goToPage = useCallback((page: number) => {
+    console.log('Page button clicked:', {
+      page,
+      totalPages: paginationInfo.totalPages,
+      currentPage: paginationInfo.currentPage
+    });
+    
     if (page >= 1 && page <= paginationInfo.totalPages) {
+      console.log('Fetching page:', page);
       setCurrentPage(page);
-      await fetchCategories(page, searchTerm);
+      fetchCategories(page, searchTerm);
     }
-  }, [paginationInfo.totalPages, fetchCategories, searchTerm]);
+  }, [paginationInfo.totalPages, searchTerm]);
 
   return (
     <>
@@ -159,20 +179,21 @@ const CategorySearch: React.FC<CategorySearchProps> = ({
       {/* Pagination Info */}
       {!searchTerm && paginationInfo.totalCategories > 0 && (
         <div className="pagination-info">
-          Showing {((currentPage - 1) * ITEMS_PER_PAGE) + 1}-{Math.min(currentPage * ITEMS_PER_PAGE, paginationInfo.totalCategories)} of {paginationInfo.totalCategories} categories
+          Showing {((paginationInfo.currentPage - 1) * ITEMS_PER_PAGE) + 1}-{Math.min(paginationInfo.currentPage * ITEMS_PER_PAGE, paginationInfo.totalCategories)} of {paginationInfo.totalCategories} categories
         </div>
       )}
 
       {/* Search Results Info */}
       {searchTerm && (
         <div className="search-results-info">
-          Found {filteredCategories.length} category{filteredCategories.length !== 1 ? 'ies' : 'y'} for "{searchTerm}"
+          Found {paginationInfo.totalCategories} category{paginationInfo.totalCategories !== 1 ? 'ies' : 'y'} for "{searchTerm}"
+          {paginationInfo.totalPages > 1 && ` (Page ${paginationInfo.currentPage} of ${paginationInfo.totalPages})`}
         </div>
       )}
 
       <div className="categories-container">
         <div className="categories-grid">
-          {isLoading && displayedCategories.length === 0 ? (
+          {isLoading ? (
             // Loading skeleton
             Array.from({ length: ITEMS_PER_PAGE }).map((_, index) => (
               <div 
@@ -180,9 +201,9 @@ const CategorySearch: React.FC<CategorySearchProps> = ({
                 className="loading-skeleton"
               />
             ))
-          ) : displayedCategories.length > 0 ? (
+          ) : categories.length > 0 ? (
             <>
-              {displayedCategories.map((category) => (
+              {categories.map((category) => (
                 <CategoryCard 
                   key={category.name} 
                   name={category.name}
@@ -192,13 +213,21 @@ const CategorySearch: React.FC<CategorySearchProps> = ({
               ))}
               
               {/* Pagination Controls */}
-              {paginationInfo.totalPages > 1 && !searchTerm && (
+              {paginationInfo.totalPages > 1 && (
                 <div className="pagination-controls">
+                  {console.log('Rendering pagination controls:', {
+                    currentPage: paginationInfo.currentPage,
+                    totalPages: paginationInfo.totalPages,
+                    hasNextPage: paginationInfo.hasNextPage,
+                    hasPrevPage: paginationInfo.hasPrevPage,
+                    totalCategories: paginationInfo.totalCategories
+                  })}
+                  
                   {/* Previous Button */}
                   <button
                     onClick={goToPreviousPage}
-                    disabled={!paginationInfo.hasPreviousPage}
-                    className={`pagination-btn ${!paginationInfo.hasPreviousPage ? 'disabled' : ''}`}
+                    disabled={!paginationInfo.hasPrevPage}
+                    className={`pagination-btn ${!paginationInfo.hasPrevPage ? 'disabled' : ''}`}
                   >
                     ← Previous
                   </button>
@@ -209,19 +238,19 @@ const CategorySearch: React.FC<CategorySearchProps> = ({
                       let pageNum;
                       if (paginationInfo.totalPages <= 5) {
                         pageNum = i + 1;
-                      } else if (currentPage <= 3) {
+                      } else if (paginationInfo.currentPage <= 3) {
                         pageNum = i + 1;
-                      } else if (currentPage >= paginationInfo.totalPages - 2) {
+                      } else if (paginationInfo.currentPage >= paginationInfo.totalPages - 2) {
                         pageNum = paginationInfo.totalPages - 4 + i;
                       } else {
-                        pageNum = currentPage - 2 + i;
+                        pageNum = paginationInfo.currentPage - 2 + i;
                       }
 
                       return (
                         <button
                           key={pageNum}
                           onClick={() => goToPage(pageNum)}
-                          className={`page-btn ${currentPage === pageNum ? 'active' : ''}`}
+                          className={`page-btn ${paginationInfo.currentPage === pageNum ? 'active' : ''}`}
                         >
                           {pageNum}
                         </button>
@@ -241,17 +270,9 @@ const CategorySearch: React.FC<CategorySearchProps> = ({
               )}
 
               {/* Show message when only one page */}
-              {paginationInfo.totalPages === 1 && !searchTerm && (
+              {paginationInfo.totalPages === 1 && (
                 <div className="single-page-message">
                   <p>Showing all {paginationInfo.totalCategories} categories</p>
-                </div>
-              )}
-
-              {/* Load More Indicator for Total Categories */}
-              {paginationInfo.totalCategories > displayedCategories.length && !searchTerm && (
-                <div className="load-more-indicator">
-                  <p>Showing {displayedCategories.length} of {paginationInfo.totalCategories} categories</p>
-                  <p>Use pagination to see more categories.</p>
                 </div>
               )}
             </>
