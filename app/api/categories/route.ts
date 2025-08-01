@@ -31,8 +31,27 @@ async function retryOperation<T>(
   throw new Error('All retry attempts failed');
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const { searchParams } = new URL(request.url);
+    const page = parseInt(searchParams.get('page') || '1');
+    const limit = parseInt(searchParams.get('limit') || '20'); // Default 20 items per page
+    
+    // Validate pagination parameters
+    if (page < 1) {
+      return NextResponse.json(
+        { error: "Page number must be greater than 0" },
+        { status: 400 }
+      );
+    }
+    
+    if (limit < 1 || limit > 100) {
+      return NextResponse.json(
+        { error: "Limit must be between 1 and 100" },
+        { status: 400 }
+      );
+    }
+
     // Retry database connection
     await retryOperation(async () => {
       await connectToolsDB();
@@ -41,7 +60,7 @@ export async function GET() {
     const Tool = await getToolModel();
 
     // Get all categories with retry - optimized for large datasets
-    const categoryData: CategoryData[] = await retryOperation(async () => {
+    const allCategoryData: CategoryData[] = await retryOperation(async () => {
       const categories: string[] = await Tool.distinct('category');
       const sorted = [...new Set(categories)].sort();
 
@@ -82,12 +101,31 @@ export async function GET() {
       return data;
     }, 2, 1000);
 
-    console.log(`API: Loaded ${categoryData.length} categories`);
+    // Sort by tool count (most popular first)
+    const sortedCategories = allCategoryData.sort((a, b) => b.toolCount - a.toolCount);
+    
+    // Calculate pagination
+    const totalCategories = sortedCategories.length;
+    const totalPages = Math.ceil(totalCategories / limit);
+    const startIndex = (page - 1) * limit;
+    const endIndex = startIndex + limit;
+    
+    // Get paginated categories
+    const paginatedCategories = sortedCategories.slice(startIndex, endIndex);
+
+    console.log(`API: Page ${page}/${totalPages}, Showing ${paginatedCategories.length} of ${totalCategories} categories`);
 
     return NextResponse.json({
       success: true,
-      categories: categoryData,
-      total: categoryData.length
+      categories: paginatedCategories,
+      pagination: {
+        currentPage: page,
+        totalPages,
+        totalCategories,
+        hasNextPage: page < totalPages,
+        hasPreviousPage: page > 1,
+        itemsPerPage: limit
+      }
     });
 
   } catch (error) {

@@ -10,6 +10,15 @@ interface CategoryData {
   description: string;
 }
 
+interface PaginationInfo {
+  currentPage: number;
+  totalPages: number;
+  totalCategories: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  itemsPerPage: number;
+}
+
 interface CategorySearchProps {
   initialCategories: CategoryData[];
   totalCategoryCount?: number;
@@ -23,27 +32,58 @@ const CategorySearch: React.FC<CategorySearchProps> = ({
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [displayedCategories, setDisplayedCategories] = useState<CategoryData[]>([]);
+  const [displayedCategories, setDisplayedCategories] = useState<CategoryData[]>(initialCategories);
+  const [paginationInfo, setPaginationInfo] = useState<PaginationInfo>({
+    currentPage: 1,
+    totalPages: Math.ceil(totalCategoryCount / 20),
+    totalCategories: totalCategoryCount,
+    hasNextPage: totalCategoryCount > 20,
+    hasPreviousPage: false,
+    itemsPerPage: 20
+  });
 
   // Performance optimization: items per page - show 20 categories per page
   const ITEMS_PER_PAGE = 20; // Show 20 categories per page
 
-  // Function to refresh category data
-  const refreshCategories = useCallback(async () => {
+  // Function to fetch categories from API with pagination
+  const fetchCategories = useCallback(async (page: number = 1, search: string = '') => {
     try {
       setIsLoading(true);
-      const response = await fetch('/api/categories');
+      
+      // Build API URL with pagination parameters
+      const params = new URLSearchParams({
+        page: page.toString(),
+        limit: ITEMS_PER_PAGE.toString()
+      });
+      
+      const response = await fetch(`/api/categories?${params}`);
       if (response.ok) {
         const data = await response.json();
         console.log('API Response:', data); // Debug log
-        setCategories(data.categories || initialCategories);
+        
+        if (data.success) {
+          setCategories(data.categories || []);
+          setPaginationInfo(data.pagination || {
+            currentPage: page,
+            totalPages: 1,
+            totalCategories: data.categories?.length || 0,
+            hasNextPage: false,
+            hasPreviousPage: page > 1,
+            itemsPerPage: ITEMS_PER_PAGE
+          });
+        }
       }
     } catch (error) {
-      console.error('Error refreshing categories:', error);
+      console.error('Error fetching categories:', error);
     } finally {
       setIsLoading(false);
     }
-  }, [initialCategories]);
+  }, []);
+
+  // Function to refresh category data
+  const refreshCategories = useCallback(async () => {
+    await fetchCategories(currentPage, searchTerm);
+  }, [fetchCategories, currentPage, searchTerm]);
 
   // Refresh categories every 5 minutes to get updated counts
   useEffect(() => {
@@ -51,7 +91,7 @@ const CategorySearch: React.FC<CategorySearchProps> = ({
     return () => clearInterval(interval);
   }, [refreshCategories]);
 
-  // Filter categories based on search term
+  // Filter categories based on search term (client-side filtering for search)
   const filteredCategories = useMemo(() => {
     if (!searchTerm.trim()) {
       return categories;
@@ -64,33 +104,18 @@ const CategorySearch: React.FC<CategorySearchProps> = ({
     );
   }, [categories, searchTerm]);
 
-  // Calculate pagination
-  const totalPages = Math.ceil(filteredCategories.length / ITEMS_PER_PAGE);
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const endIndex = startIndex + ITEMS_PER_PAGE;
-
-  // Debug log to see pagination state
-  console.log('Pagination Debug:', {
-    filteredCategoriesLength: filteredCategories.length,
-    totalPages,
-    currentPage,
-    startIndex,
-    endIndex,
-    ITEMS_PER_PAGE
-  });
-
   // Update displayed categories when search or page changes
   useEffect(() => {
     setIsLoading(true);
     
     // Simulate loading for better UX
     const timer = setTimeout(() => {
-      setDisplayedCategories(filteredCategories.slice(startIndex, endIndex));
+      setDisplayedCategories(filteredCategories);
       setIsLoading(false);
     }, 100);
 
     return () => clearTimeout(timer);
-  }, [filteredCategories, startIndex, endIndex]);
+  }, [filteredCategories]);
 
   // Reset to first page when search changes
   useEffect(() => {
@@ -101,24 +126,29 @@ const CategorySearch: React.FC<CategorySearchProps> = ({
     setSearchTerm(value);
   };
 
-  // Navigation functions
-  const goToNextPage = useCallback(() => {
-    if (currentPage < totalPages) {
-      setCurrentPage(prev => prev + 1);
+  // Navigation functions with API calls
+  const goToNextPage = useCallback(async () => {
+    if (paginationInfo.hasNextPage) {
+      const nextPage = currentPage + 1;
+      setCurrentPage(nextPage);
+      await fetchCategories(nextPage, searchTerm);
     }
-  }, [currentPage, totalPages]);
+  }, [currentPage, paginationInfo.hasNextPage, fetchCategories, searchTerm]);
 
-  const goToPreviousPage = useCallback(() => {
-    if (currentPage > 1) {
-      setCurrentPage(prev => prev - 1);
+  const goToPreviousPage = useCallback(async () => {
+    if (paginationInfo.hasPreviousPage) {
+      const prevPage = currentPage - 1;
+      setCurrentPage(prevPage);
+      await fetchCategories(prevPage, searchTerm);
     }
-  }, [currentPage]);
+  }, [currentPage, paginationInfo.hasPreviousPage, fetchCategories, searchTerm]);
 
-  const goToPage = useCallback((page: number) => {
-    if (page >= 1 && page <= totalPages) {
+  const goToPage = useCallback(async (page: number) => {
+    if (page >= 1 && page <= paginationInfo.totalPages) {
       setCurrentPage(page);
+      await fetchCategories(page, searchTerm);
     }
-  }, [totalPages]);
+  }, [paginationInfo.totalPages, fetchCategories, searchTerm]);
 
   return (
     <>
@@ -127,10 +157,9 @@ const CategorySearch: React.FC<CategorySearchProps> = ({
       </div>
       
       {/* Pagination Info */}
-      {!searchTerm && totalCategoryCount > 0 && (
+      {!searchTerm && paginationInfo.totalCategories > 0 && (
         <div className="pagination-info">
-          Showing {startIndex + 1}-{Math.min(endIndex, filteredCategories.length)} of {filteredCategories.length} categories
-          {totalCategoryCount > filteredCategories.length && ` (${totalCategoryCount} total available)`}
+          Showing {((currentPage - 1) * ITEMS_PER_PAGE) + 1}-{Math.min(currentPage * ITEMS_PER_PAGE, paginationInfo.totalCategories)} of {paginationInfo.totalCategories} categories
         </div>
       )}
 
@@ -163,27 +192,27 @@ const CategorySearch: React.FC<CategorySearchProps> = ({
               ))}
               
               {/* Pagination Controls */}
-              {totalPages >= 1 && (
+              {paginationInfo.totalPages > 1 && !searchTerm && (
                 <div className="pagination-controls">
                   {/* Previous Button */}
                   <button
                     onClick={goToPreviousPage}
-                    disabled={currentPage === 1}
-                    className={`pagination-btn ${currentPage === 1 ? 'disabled' : ''}`}
+                    disabled={!paginationInfo.hasPreviousPage}
+                    className={`pagination-btn ${!paginationInfo.hasPreviousPage ? 'disabled' : ''}`}
                   >
                     ← Previous
                   </button>
 
                   {/* Page Numbers */}
                   <div className="page-numbers">
-                    {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                    {Array.from({ length: Math.min(5, paginationInfo.totalPages) }, (_, i) => {
                       let pageNum;
-                      if (totalPages <= 5) {
+                      if (paginationInfo.totalPages <= 5) {
                         pageNum = i + 1;
                       } else if (currentPage <= 3) {
                         pageNum = i + 1;
-                      } else if (currentPage >= totalPages - 2) {
-                        pageNum = totalPages - 4 + i;
+                      } else if (currentPage >= paginationInfo.totalPages - 2) {
+                        pageNum = paginationInfo.totalPages - 4 + i;
                       } else {
                         pageNum = currentPage - 2 + i;
                       }
@@ -203,8 +232,8 @@ const CategorySearch: React.FC<CategorySearchProps> = ({
                   {/* Next Button */}
                   <button
                     onClick={goToNextPage}
-                    disabled={currentPage === totalPages}
-                    className={`pagination-btn ${currentPage === totalPages ? 'disabled' : ''}`}
+                    disabled={!paginationInfo.hasNextPage}
+                    className={`pagination-btn ${!paginationInfo.hasNextPage ? 'disabled' : ''}`}
                   >
                     Next →
                   </button>
@@ -212,17 +241,17 @@ const CategorySearch: React.FC<CategorySearchProps> = ({
               )}
 
               {/* Show message when only one page */}
-              {totalPages === 1 && (
+              {paginationInfo.totalPages === 1 && !searchTerm && (
                 <div className="single-page-message">
-                  <p>Showing all {filteredCategories.length} categories</p>
+                  <p>Showing all {paginationInfo.totalCategories} categories</p>
                 </div>
               )}
 
               {/* Load More Indicator for Total Categories */}
-              {totalCategoryCount > filteredCategories.length && !searchTerm && (
+              {paginationInfo.totalCategories > displayedCategories.length && !searchTerm && (
                 <div className="load-more-indicator">
-                  <p>Showing {filteredCategories.length} of {totalCategoryCount} categories</p>
-                  <p>More categories are available. Use search to find specific categories.</p>
+                  <p>Showing {displayedCategories.length} of {paginationInfo.totalCategories} categories</p>
+                  <p>Use pagination to see more categories.</p>
                 </div>
               )}
             </>

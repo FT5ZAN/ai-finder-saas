@@ -54,8 +54,8 @@ async function retryOperation<T>(
   throw new Error('All retry attempts failed');
 }
 
-// Get categories with pagination support
-async function getCategoriesWithPagination(limit: number = 50): Promise<{
+// Get initial categories (first 20 only for performance)
+async function getInitialCategories(): Promise<{
   categories: CategoryData[];
   totalCount: number;
 }> {
@@ -68,7 +68,7 @@ async function getCategoriesWithPagination(limit: number = 50): Promise<{
     const Tool = await getToolModel();
 
     // Get all categories with retry - optimized for large datasets
-    const categoryData: CategoryData[] = await retryOperation(async () => {
+    const allCategoryData: CategoryData[] = await retryOperation(async () => {
       const categories: string[] = await Tool.distinct('category');
       const sorted = [...new Set(categories)].sort();
 
@@ -109,14 +109,15 @@ async function getCategoriesWithPagination(limit: number = 50): Promise<{
       return data;
     }, 2, 1000);
 
-    // Sort by tool count (most popular first) and limit to initial load
-    const sortedCategories = categoryData
-      .sort((a, b) => b.toolCount - a.toolCount)
-      .slice(0, limit);
+    // Sort by tool count (most popular first) and get only first 20 for initial load
+    const sortedCategories = allCategoryData.sort((a, b) => b.toolCount - a.toolCount);
+    const initialCategories = sortedCategories.slice(0, 20); // Only load first 20
+
+    console.log(`Initial load: ${initialCategories.length} categories (${sortedCategories.length} total available)`);
 
     return {
-      categories: sortedCategories,
-      totalCount: categoryData.length
+      categories: initialCategories,
+      totalCount: sortedCategories.length
     };
   } catch (error) {
     console.error('Database connection error:', error);
@@ -129,10 +130,10 @@ async function getCategoriesWithPagination(limit: number = 50): Promise<{
 
 export default async function CategoryPage() {
   try {
-    // Get categories with pagination (show first 50 initially to have multiple pages)
-    const { categories, totalCount } = await getCategoriesWithPagination(50);
+    // Get only first 20 categories for initial load (performance optimization)
+    const { categories, totalCount } = await getInitialCategories();
     
-    console.log(`Loaded ${categories.length} categories (${totalCount} total available)`);
+    console.log(`Loaded ${categories.length} initial categories (${totalCount} total available)`);
 
     return (
       <div className={styles.grandp}>
