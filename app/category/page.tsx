@@ -54,8 +54,8 @@ async function retryOperation<T>(
   throw new Error('All retry attempts failed');
 }
 
-// Get categories with pagination support
-async function getCategoriesWithPagination(limit: number = 50): Promise<{
+// Get initial categories for first page load
+async function getInitialCategories(): Promise<{
   categories: CategoryData[];
   totalCount: number;
 }> {
@@ -67,56 +67,51 @@ async function getCategoriesWithPagination(limit: number = 50): Promise<{
 
     const Tool = await getToolModel();
 
-    // Get all categories with retry - optimized for large datasets
-    const categoryData: CategoryData[] = await retryOperation(async () => {
+    // Get total count of categories first
+    const totalCategories = await retryOperation(async () => {
       const categories: string[] = await Tool.distinct('category');
-      const sorted = [...new Set(categories)].sort();
-
-      // Process categories in batches to avoid memory issues
-      const batchSize = 50;
-      const data: CategoryData[] = [];
-      
-      for (let i = 0; i < sorted.length; i += batchSize) {
-        const batch = sorted.slice(i, i + batchSize);
-        
-        const batchData = await Promise.all(
-          batch.map(async (category) => {
-            // Use countDocuments for better performance than find().length
-            const toolCount = await Tool.countDocuments({ 
-              category, 
-              isActive: true 
-            });
-            
-            // Get description from first tool in category
-            const firstTool = await Tool.findOne({ 
-              category, 
-              isActive: true 
-            }).select('about').lean();
-            
-            const description = firstTool?.about || `Explore amazing ${category.toLowerCase()} tools`;
-
-            return {
-              name: category,
-              toolCount,
-              description
-            };
-          })
-        );
-        
-        data.push(...batchData);
-      }
-
-      return data;
+      return categories.length;
     }, 2, 1000);
 
-    // Sort by tool count (most popular first) and limit to initial load
-    const sortedCategories = categoryData
-      .sort((a, b) => b.toolCount - a.toolCount)
-      .slice(0, limit);
+    // Get first 20 categories for initial load
+    const initialCategories = await retryOperation(async () => {
+      const categories: string[] = await Tool.distinct('category');
+      const sorted = [...new Set(categories)].sort();
+      const firstTwenty = sorted.slice(0, 20);
+
+      // Process only the first 20 categories
+      const categoryData: CategoryData[] = await Promise.all(
+        firstTwenty.map(async (category) => {
+          // Use countDocuments for better performance than find().length
+          const toolCount = await Tool.countDocuments({ 
+            category, 
+            isActive: true 
+          });
+          
+          // Get description from first tool in category
+          const firstTool = await Tool.findOne({ 
+            category, 
+            isActive: true 
+          }).select('about').lean();
+          
+          const description = firstTool?.about || `Explore amazing ${category.toLowerCase()} tools`;
+
+          return {
+            name: category,
+            toolCount,
+            description
+          };
+        })
+      );
+
+      return categoryData;
+    }, 2, 1000);
+
+    console.log(`Initial load: ${initialCategories.length} categories (${totalCategories} total available)`);
 
     return {
-      categories: sortedCategories,
-      totalCount: categoryData.length
+      categories: initialCategories,
+      totalCount: totalCategories
     };
   } catch (error) {
     console.error('Database connection error:', error);
@@ -129,10 +124,10 @@ async function getCategoriesWithPagination(limit: number = 50): Promise<{
 
 export default async function CategoryPage() {
   try {
-    // Get categories with pagination (show first 50 initially to have multiple pages)
-    const { categories, totalCount } = await getCategoriesWithPagination(50);
+    // Get initial categories for first page load
+    const { categories, totalCount } = await getInitialCategories();
     
-    console.log(`Loaded ${categories.length} categories (${totalCount} total available)`);
+    console.log(`Loaded ${categories.length} initial categories (${totalCount} total available)`);
 
     return (
       <div className={styles.grandp}>
