@@ -307,10 +307,8 @@ const SSRCategoryToolList: React.FC<SSRCategoryToolListProps> = ({
       {/* Pagination Info */}
       {!searchQuery && !error && totalPages > 1 && (
         <div style={{
-          textAlign: 'center',
-          marginBottom: '1rem',
-          color: '#fff',
-          fontSize: '0.9rem'
+         
+          display: 'none'
         }}>
           Showing {startIndex + 1}-{Math.min(endIndex, filteredTools.length)} of {filteredTools.length} tools
           {totalToolCount > filteredTools.length && ` (${totalToolCount} total available)`}
@@ -361,7 +359,7 @@ const SSRCategoryToolList: React.FC<SSRCategoryToolListProps> = ({
                   disabled={currentPage === 1}
                   style={{
                     padding: '0.5rem 1rem',
-                    backgroundColor: currentPage === 1 ? 'rgba(255, 255, 255, 0.1)' : 'rgba(255, 255, 255, 0.2)',
+                    backgroundColor: currentPage === 1 ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.2)',
                     border: '1px solid rgba(255, 255, 255, 0.2)',
                     borderRadius: '5px',
                     color: '#fff',
@@ -392,10 +390,10 @@ const SSRCategoryToolList: React.FC<SSRCategoryToolListProps> = ({
                         onClick={() => goToPage(pageNum)}
                         style={{
                           padding: '0.5rem 0.75rem',
-                          backgroundColor: currentPage === pageNum ? '#667eea' : 'rgba(255, 255, 255, 0.1)',
+                          backgroundColor: currentPage === pageNum ? 'black' : 'rgba(255, 255, 255, 0.1)',
                           border: '1px solid rgba(255, 255, 255, 0.2)',
                           borderRadius: '5px',
-                          color: '#fff',
+                          color: 'white',
                           cursor: 'pointer',
                           minWidth: '2.5rem'
                         }}
@@ -412,7 +410,7 @@ const SSRCategoryToolList: React.FC<SSRCategoryToolListProps> = ({
                   disabled={currentPage === totalPages}
                   style={{
                     padding: '0.5rem 1rem',
-                    backgroundColor: currentPage === totalPages ? 'rgba(255, 255, 255, 0.1)' : 'rgba(255, 255, 255, 0.2)',
+                    backgroundColor: currentPage === totalPages ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.2)',
                     border: '1px solid rgba(255, 255, 255, 0.2)',
                     borderRadius: '5px',
                     color: '#fff',
@@ -435,8 +433,8 @@ const SSRCategoryToolList: React.FC<SSRCategoryToolListProps> = ({
                 borderRadius: '10px',
                 border: '1px solid rgba(255, 255, 255, 0.1)'
               }}>
-                <p style={{ margin: '0 0 1rem 0' }}>
-                  Showing {filteredTools.length} of {totalToolCount} tools
+                <p style={{ margin: '0 0 2rem 0' }}>
+                  {/* Showing {filteredTools.length} of {totalToolCount} tools */}
                 </p>
                 <p style={{ 
                   margin: '0', 

@@ -62,7 +62,7 @@ const StyledWrapper = styled.div`
     position: relative;
     max-width: 500px;
     width: 100%;
-    margin-bottom: 0rem;
+    margin-bottom: 3rem;
   }
 
   .input {

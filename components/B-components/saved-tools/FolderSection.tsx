@@ -67,7 +67,7 @@ const FolderSection: React.FC<FolderSectionProps> = ({
 
 const FolderSectionContainer = styled.div<{ $isUnsorted: boolean }>`
   margin-bottom: ${({ $isUnsorted }) => $isUnsorted ? '2rem' : '1rem'};
-  background: #ffffff;
+  background:rgb(0, 0, 0);
   border-radius: 16px;
   padding: ${({ $isUnsorted }) => $isUnsorted ? '2rem' : '1rem'};
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -91,9 +91,9 @@ const FolderHeader = styled.div<{ $isUnsorted: boolean }>`
   border-bottom: 2px solid #f3f4f6;
 `;
 
-const FolderTitle = styled.h2<{ $isUnsorted: boolean }>`
+const FolderTitle = styled.h1<{ $isUnsorted: boolean }>`
   font-size: ${({ $isUnsorted }) => $isUnsorted ? '1.75rem' : '1.25rem'};
-  color: #111827;
+  color:rgb(255, 255, 255);
   margin: 0;
   font-weight: 700;
   display: flex;
@@ -142,7 +142,7 @@ const EmptyFolder = styled.div<{ $isUnsorted: boolean }>`
   padding: ${({ $isUnsorted }) => $isUnsorted ? '3rem 2rem' : '1.5rem 1rem'};
   color: #6b7280;
   font-style: italic;
-  background: #f9fafb;
+  background:rgb(0, 0, 0);
   border-radius: 12px;
   border: 1px dashed #d1d5db;
   font-size: ${({ $isUnsorted }) => $isUnsorted ? '1rem' : '0.875rem'};

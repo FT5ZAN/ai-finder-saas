@@ -281,7 +281,7 @@ const CategorySearch: React.FC<CategorySearchProps> = ({
         .search-container {
           display: flex;
           justify-content: center;
-          margin-bottom: 1rem;
+          margin-bottom: 0rem;
           padding: 0 1rem;
           width: 100%;
         }

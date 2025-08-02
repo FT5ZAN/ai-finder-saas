@@ -32,7 +32,7 @@ a {
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 0 1rem;
 }
@@ -282,7 +282,7 @@ a {
 }
 
 .saved-tools-content {
-  padding: 3rem 0;
+  padding: 0rem 0;
 }
 
 /* Saved Tools Page Responsive */

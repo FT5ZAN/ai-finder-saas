@@ -277,7 +277,7 @@ export default async function CategoryPage({ params }: PageProps) {
     }}>
       <div style={{ 
         display: "flex",
-        height: "90px",
+        height: "50px",
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
@@ -286,20 +286,20 @@ export default async function CategoryPage({ params }: PageProps) {
         <div>
           <h1 style={{ 
             fontSize: "2.5rem", 
-            marginBottom: "0rem",
+            marginBottom: "1rem",
             textAlign: "center"
           }}>
-            {decodedCategory} Tools
+            {decodedCategory} 
           </h1>
           {/* Show pagination info */}
-          {totalToolCount > 25 && (
+          {totalToolCount > 10 && (
             <p style={{ 
-              fontSize: "1rem", 
+              fontSize: "0rem", 
               color: "#cccccc", 
               textAlign: "center",
               marginTop: "0.5rem"
             }}>
-              Showing top 25 of {totalToolCount} tools
+              Showing top 10 of {totalToolCount} tools
             </p>
           )}
         </div>

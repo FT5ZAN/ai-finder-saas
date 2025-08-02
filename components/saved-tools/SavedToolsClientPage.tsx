@@ -839,20 +839,21 @@ const CustomFoldersContainer = styled.div`
 
 const Header = styled.div`
      text-align: center;
-    margin-bottom: 0rem;
-    padding: 0rem;
+    margin-bottom: rem;
+    padding: 1rem;
     display: flex;
-    background: green;
-    
+    background: transparent;
     align-items: center;
     width: 100%;
-  
+    justify-content: center;
+    align-items: center;
+    gap: 15rem;
   h1 {
     font-size: 2.5rem;
     color:rgb(255, 255, 255);
     margin-bottom: 0.5rem;
     font-weight: 700;
-    background: rgb(0, 0, 0);
+    // background: rgb(0, 0, 0);
   }
   
   p {
@@ -863,7 +864,7 @@ const Header = styled.div`
 `;
 
 const CurrentPlanSection = styled.div`
-  background: #1f2937;
+  background: transparent;
   border-radius: 12px;
   padding: 0px;
   margin-bottom: 0px;
@@ -872,7 +873,9 @@ const CurrentPlanSection = styled.div`
 const CurrentPlanHeader = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 15px;
+  justify-content: center;
+  align-items: center;
 `;
 
 
@@ -891,10 +894,11 @@ const CurrentPlanSubtitle = styled.p`
 const UsageGrid = styled.div`
   display: flex;
     gap: 0px;
-    margin-bottom: 16px;
-    background: slategrey;
+    margin-bottom: 15px;
+    background: transparent;
     align-items: center;
     place-content: space-around;
+    
 
 `;
 
