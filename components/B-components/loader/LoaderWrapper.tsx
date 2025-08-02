@@ -42,7 +42,7 @@ const LoaderOverlay = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  background: linear-gradient(135deg,rgb(0, 0, 0)rgb(0, 0, 0)293b 100%);
   display: flex;
   align-items: center;
   justify-content: center;

@@ -297,7 +297,7 @@ const PricingPage = () => {
 
         <UpgradeInfo>
           <p><strong>🎉 MICRO TOP-UP BENEFITS:</strong></p>
-          <ul>
+          <ul style={{ listStyle: 'none',padding:'15px' }}>
             <li><strong>+{selectedPlan * 10} extra tools</strong> (on top of your current limit)</li>
             <li><strong>+{selectedPlan} extra folders</strong> (on top of your current limit)</li>
             <li><strong>Buy anytime</strong> - Purchase more packs whenever you need them</li>
@@ -352,11 +352,10 @@ const PricingPage = () => {
 };
 
 const Container = styled.div`
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 2rem;
   min-height: 100vh;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
   color: #ffffff;
 `;
 
@@ -369,7 +368,7 @@ const Title = styled.h1`
   font-size: 3rem;
   font-weight: 700;
   margin-bottom: 1rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg,rgb(255, 255, 255) 0%,rgb(0, 0, 0) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -377,14 +376,14 @@ const Title = styled.h1`
 
 const Subtitle = styled.p`
   font-size: 1.25rem;
-  color: #94a3b8;
+  color:rgb(255, 255, 255);
   margin: 0;
 `;
 
 
 
 const CurrentPlanSection = styled.div`
-  background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+  background: black;
   border-radius: 20px;
   padding: 2rem;
   margin-bottom: 3rem;
@@ -407,7 +406,7 @@ const CurrentPlanTitle = styled.h2`
   font-size: 1.5rem;
   font-weight: 600;
   margin: 0;
-  color: #10b981;
+  color:rgb(255, 255, 255);
 `;
 
 const CurrentPlanSubtitle = styled.p`
@@ -424,7 +423,7 @@ const UsageGrid = styled.div`
 `;
 
 const UsageCard = styled.div`
-  background: #111827;
+  background:rgb(20 19 19);
   border-radius: 12px;
   padding: 1.5rem;
   border: 1px solid #374151;
@@ -458,7 +457,7 @@ const UsageValue = styled.div`
 const ProgressBar = styled.div`
   width: 100%;
   height: 8px;
-  background: #374151;
+  background:rgb(0, 0, 0);
   border-radius: 4px;
   overflow: hidden;
 `;
@@ -482,7 +481,7 @@ const LimitWarning = styled.div`
 `;
 
 const UpgradeSection = styled.div`
-  background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+  background: linear-gradient(135deg,rgb(0, 0, 0) 0%,rgb(0, 0, 0) 100%);
   border-radius: 20px;
   padding: 2rem;
   margin-bottom: 3rem;
@@ -499,7 +498,7 @@ const UpgradeTitle = styled.h2`
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: linear-gradient(135deg,rgb(0, 0, 0) 0%,rgb(255, 255, 255) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -529,7 +528,7 @@ const PlanStepper = styled.div`
   display: flex;
   align-items: center;
   gap: 1.5rem;
-  background: #111827;
+  background:rgb(0, 0, 0);
   padding: 1rem 1.5rem;
   border-radius: 12px;
   border: 1px solid #374151;
@@ -556,7 +555,7 @@ const StepperButton = styled.button`
   }
 
   &:disabled {
-    background: #1f2937;
+    background:rgb(37, 40, 44);
     color: #6b7280;
     cursor: not-allowed;
   }
@@ -565,13 +564,13 @@ const StepperButton = styled.button`
 const PlanAmount = styled.span`
   font-size: 2rem;
   font-weight: 700;
-  color: #10b981;
+  color:rgb(255, 255, 255);
   min-width: 60px;
   text-align: center;
 `;
 
 const PlanPreview = styled.div`
-  background: #111827;
+  background:rgb(0, 0, 0);
   border-radius: 12px;
   padding: 1.5rem;
   margin-bottom: 2rem;
@@ -593,7 +592,7 @@ const PreviewGrid = styled.div`
 `;
 
 const PreviewCard = styled.div`
-  background: #1f2937;
+  background:rgb(20 19 19);
   border-radius: 8px;
   padding: 1rem;
   text-align: center;
@@ -606,10 +605,13 @@ const PreviewIcon = styled.div`
 `;
 
 const PreviewTitle = styled.h4`
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #9ca3af;
-  margin: 0 0 0.5rem 0;
+  background: #000000;
+    border-radius: 150px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border: 1px solid #374151;
+    text-align: center;
+    
 `;
 
 const PreviewValue = styled.div`
@@ -626,11 +628,13 @@ const PreviewDescription = styled.p`
 `;
 
 const UpgradeInfo = styled.div`
-  background: #111827;
-  border-radius: 12px;
-  padding: 1.5rem;
-  margin-bottom: 2rem;
-  border: 1px solid #374151;
+  background:rgb(0, 0, 0);
+    border-radius: 150px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border: 1px solid #374151;
+    text-align: center;
+    list-style: none;
 `;
 
 const UpgradeButton = styled.button`
@@ -681,7 +685,7 @@ const FeaturesTitle = styled.h2`
   font-size: 2rem;
   font-weight: 700;
   margin: 0 0 2rem 0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg,rgb(253, 253, 253) 0%,rgb(0, 0, 0) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -694,7 +698,7 @@ const FeaturesGrid = styled.div`
 `;
 
 const FeatureCard = styled.div`
-  background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+  background: linear-gradient(135deg,rgb(0, 0, 0) 0%,rgb(0, 0, 0) 100%);
   border-radius: 12px;
   padding: 1.5rem;
   text-align: center;

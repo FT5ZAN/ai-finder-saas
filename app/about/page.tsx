@@ -60,7 +60,7 @@ const AboutPage = () => {
   return (
     <Container>
       <Header>
-        <Title>📊 Platform Statistics</Title>
+        <Title> Platform Statistics</Title>
         <Subtitle>Real-time insights into our registered users and tools</Subtitle>
       </Header>
 
@@ -153,12 +153,12 @@ const StatsCard = ({ title, value, suffix, description }: StatsCardProps) => {
 };
 
 const Container = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  color: #ffffff;
+  max-width: 95%;
+    margin: 0 auto;
+    padding: 0rem;
+    min-height: 100vh;
+    color: #000000;
+    
 `;
 
 const Header = styled.div`
@@ -169,8 +169,9 @@ const Header = styled.div`
 const Title = styled.h1`
   font-size: 3rem;
   font-weight: 700;
+  margin-top: 2rem;
   margin-bottom: 1rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg,rgb(0, 0, 0) 0%,rgb(255, 255, 255) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -178,7 +179,7 @@ const Title = styled.h1`
 
 const Subtitle = styled.p`
   font-size: 1.25rem;
-  color: #94a3b8;
+  color:rgb(255, 255, 255);
   margin: 0;
 `;
 
@@ -187,14 +188,17 @@ const StatsGrid = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
   margin-bottom: 4rem;
+  justify-items: center;
+  align-items: center;
 `;
 
 const AboutSection = styled.div`
-  background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+  background: linear-gradient(135deg,rgb(0, 0, 0) 0%,rgb(0, 0, 0) 100%);
   border-radius: 20px;
   padding: 2rem;
   border: 1px solid #4b5563;
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+  margin-bottom: 2rem;
 `;
 
 const AboutTitle = styled.h2`

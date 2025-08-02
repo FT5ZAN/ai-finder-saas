@@ -850,10 +850,13 @@ const Header = styled.div`
     gap: 15rem;
   h1 {
     font-size: 2.5rem;
-    color:rgb(255, 255, 255);
     margin-bottom: 0.5rem;
     font-weight: 700;
-    // background: rgb(0, 0, 0);
+    background: linear-gradient(135deg,rgb(49, 42, 42) 0%,rgb(255, 255, 255) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+     
   }
   
   p {

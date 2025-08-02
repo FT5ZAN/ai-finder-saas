@@ -287,7 +287,8 @@ export default async function CategoryPage({ params }: PageProps) {
           <h1 style={{ 
             fontSize: "2.5rem", 
             marginBottom: "1rem",
-            textAlign: "center"
+            textAlign: "center",
+            color: "#ffffff"
           }}>
             {decodedCategory} 
           </h1>
